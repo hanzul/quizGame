@@ -1,16 +1,17 @@
+//Global defined
 const startButton = document.getElementById("start-btn");
 const nextButton = document.getElementById("next-btn");
 const questionContainerElement = document.getElementById("question-container");
 const questionElement = document.getElementById("question");
 const answerButtonsElement = document.getElementById("answer-buttons");
 const answerButton = document.querySelectorAll(".btn-answer");
-// mine
+
 const hideText = document.getElementById("textOff");
 
 let shuffledQuestions, currentQuestionIndex;
-
+//Timer
 const timer = 59;
-
+//Score
 let score = 0;
 
 startButton.addEventListener("click", startGame);
@@ -22,31 +23,27 @@ nextButton.addEventListener("click", () => {
 function attachListenersToAnswerButton() {
   answerButtonsElement.addEventListener("click", verifyAnswer, false);
 }
-
+//Start the quiz
 function startGame() {
   startButton.classList.add("hide");
   const textBlock = document.getElementsByClassName("textShow")[0];
-
+//Check the timer
   startTimer(timer);
 
   textBlock.classList.add("textHide");
   textBlock.classList.remove("textShow");
 
-  // shuffledQuestions = questions.sort(() => Math.random() - .5)
+
   shuffledQuestions = questions;
   currentQuestionIndex = 0;
   questionContainerElement.classList.remove("hide");
-
-  // invoking function below to make sure
-  // listeners are in place
   attachListenersToAnswerButton();
 
   setNextQuestion();
 }
-
+//Set the timer
 function startTimer(timer) {
   const intervals = setInterval(function () {
-    //console.log(timer);
     document.getElementById("time").textContent = timer;
     if (timer < 1) {
       gameover();
@@ -55,7 +52,7 @@ function startTimer(timer) {
     timer = timer - 1;
   }, 1000);
 }
-
+// check the asnwers
 function verifyAnswer(event) {
   const { target } = event;
   if (target.className.includes("correct")) {
@@ -63,7 +60,7 @@ function verifyAnswer(event) {
     score += 10;
     return;
   }
-
+//remove 10 pint for wrong answer
   score -= 10;
   hightlightWrongFooter();
 }
@@ -79,7 +76,7 @@ function hightlightCorrectFooter() {
   )[0];
   wrongElem.classList.add("hide");
 }
-
+//hightlightWrongFooter
 function hightlightWrongFooter() {
   const correctElem = document.getElementsByClassName(
     "hightlight-correct-answer"
@@ -91,7 +88,7 @@ function hightlightWrongFooter() {
   )[0];
   wrongElem.classList.add("show");
 }
-
+//Fotter to check the result
 function hideFooter() {
   const correctElem = document.getElementsByClassName(
     "hightlight-correct-answer"
@@ -105,13 +102,13 @@ function hideFooter() {
   correctElem.classList.remove("show");
   wrongElem.classList.remove("show");
 }
-
+//Next question function
 function setNextQuestion() {
   hideFooter();
   resetState();
   showQuestion(shuffledQuestions[currentQuestionIndex]);
 }
-
+//Show question function 
 function showQuestion(question) {
   questionElement.innerText = question.question;
   question.answers.forEach((answer) => {
@@ -125,7 +122,7 @@ function showQuestion(question) {
     answerButtonsElement.appendChild(button);
   });
 }
-
+//reset the quiz
 function resetState() {
   clearStatusClass(document.body);
   hideFooter()
@@ -134,7 +131,7 @@ function resetState() {
     answerButtonsElement.removeChild(answerButtonsElement.firstChild);
   }
 }
-
+// Select the answer
 function selectAnswer(e) {
   const selectedButton = e.target;
   const correct = selectedButton.dataset.correct;
@@ -168,7 +165,7 @@ function clearStatusClass(element) {
 function gameover() {
   document.getElementById("end-screen").setAttribute("class", "");
 }
-
+//all questions and answers
 const questions = [
   {
     question: "Commonly used data types DO Not include:",
