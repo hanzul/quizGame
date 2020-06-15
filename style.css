@@ -88,3 +88,12 @@
   .hide {
     display: none;
   }
+  .textShow{
+      display: flex;
+      flex-direction: column;
+      
+  }
+
+  .textHide{
+      display: none;
+  }

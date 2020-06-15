@@ -3,6 +3,10 @@ const nextButton = document.getElementById('next-btn')
 const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
+// mine
+const hideText = document.getElementById('textOff')
+
+var timer = 60;
 
 let shuffledQuestions, currentQuestionIndex
 
@@ -15,10 +19,40 @@ nextButton.addEventListener('click', () => {
 function startGame() {
   
   startButton.classList.add('hide')
-  shuffledQuestions = questions.sort(() => Math.random() - .5)
+  const textBlock = document.getElementsByClassName('textShow')[0];
+  var intervals = setInterval(function () {
+    //console.log(timer);
+    document.getElementById('time').textContent = timer;
+    if (timer < 1) {
+      gameover()
+      clearInterval(intervals)
+    }
+    timer = timer - 1;
+  }, 1000)
+//   hideText.classList.add('hide')
+textBlock.classList.add('textHide');
+textBlock.classList.remove('textShow');
+
+  
+  // shuffledQuestions = questions.sort(() => Math.random() - .5)
+  shuffledQuestions = questions
   currentQuestionIndex = 0
   questionContainerElement.classList.remove('hide')
+
+verifyAnswer()
+
+
+
   setNextQuestion()
+}
+
+function verifyAnswer() {
+  const button = document.getElementsByClassName('btn-answer');
+
+  button.addEventListener('click', function() {
+    const answer = button.innerText;
+    debugger;
+  })
 }
 
 function setNextQuestion() {
@@ -77,6 +111,10 @@ function clearStatusClass(element) {
   element.classList.remove('wrong')
 }
 
+function gameover() {
+    document.getElementById('end-screen').setAttribute("class", "");
+  }
+
 const questions = [
   {
     question: 'Commonly used data types DO Not include:',
@@ -92,15 +130,15 @@ const questions = [
     answers: [
       { text: '1.quotes', correct: true },
       { text: '2.curly brackets', correct: false },
-      { text: '3.parenthesis', correct: true },
-      { text: '4.square brackets', correct: true }
+      { text: '3.parenthesis', correct: false },
+      { text: '4.square brackets', correct: false }
     ]
   },
   {
     question: 'Arrays in JavaScript can be used to store______?',
     answers: [
-      { text: '1.numbers and strings', correct: false },
-      { text: '2.other arrays', correct: true },
+      { text: '1.numbers and strings', correct: true },
+      { text: '2.other arrays', correct: false },
       { text: '3.booleams', correct: false },
       { text: '4.all of the above', correct: false }
     ]
@@ -108,8 +146,8 @@ const questions = [
   {
     question: 'String values must be enclosed with in ______ when being assigned to variables.',
     answers: [
-      { text: '1.commas', correct: false },
-      { text: '2.curly brackets', correct: true },
+      { text: '1.commas', correct: true },
+      { text: '2.curly brackets', correct: false },
       { text: '3.quotes', correct: false },
       { text: '4.parenthesis', correct: false }
     ]
